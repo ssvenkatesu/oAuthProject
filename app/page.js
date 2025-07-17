@@ -1,48 +1,39 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
-import styles from "./page.module.css";
+import { useSession, signOut } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
-  const { data: session } = useSession();
+export default function Home() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/Loginpage");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="home-container">
+        <p className="loading-text">Loading...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.container}>
-      {session && <Navbar user={session.user} />}
-      
-      {session ? (
-        <>
-          <h2>Welcome, {session.user.name || session.user.email}!</h2>
-          <p>You are signed in as <strong>{session.user.email}</strong>.</p>
-        </>
-      ) : (
-        <>
-          <h2>You are not signed in</h2>
-          <button onClick={() => signIn("github")} className={styles.button}>
-            Sign in with github
-          </button>
-        </>
-      )}
+    <div className="home-container">
+      <div className="home-card">
+        <h2 className="welcome-heading">Welcome, {session?.user?.name}!</h2>
+        <p className="welcome-subtext">You have successfully signed in.</p>
+        <button
+          className="logout-button"
+          onClick={() => signOut({ callbackUrl: "/Loginpage" })}
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
-
-
-function Navbar({ user }) {
-  return (
-    <nav className={styles.navbar}>
-      <div className={styles.navleft}>
-        <span className={styles.logo}>Interv 2</span>
-      </div>
-      <div className={styles.navright}>
-        <span className={styles.user}>
-          Welcome, <strong>{user.name}</strong>
-        </span>
-        <button onClick={() => signOut()} className={styles.navButton}>
-          Sign Out
-        </button>
-      </div>
-    </nav>
-  );
-}
-
