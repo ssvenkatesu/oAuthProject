@@ -4,11 +4,11 @@
   align-items: center;
   justify-content: center;
   color:black;
-  background-color: #f3f4f6; 
+  background-color: #829dd4; 
 }
 
 .login-form {
-  background-color: white;
+  background-color: rgb(215, 194, 194);
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

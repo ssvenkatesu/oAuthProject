@@ -11,7 +11,7 @@ export default function LoginPage() {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={(e) => e.preventDefault()}>
-        <h2 className="login-title">Login</h2>
+        <h2 className="login-title">Login With Your Github</h2>
         <button
           onClick={handleGitHubLogin}
           className="login-button"
